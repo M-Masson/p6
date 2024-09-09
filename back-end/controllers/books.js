@@ -65,6 +65,6 @@ exports.modifyBook = (req, res, next) => {
 
   exports.getAllBooks = (req, res, next) => {
     Book.find()
-        .then(books => res.status(200).json(books))
+        .then(book => res.status(200).json(book))
         .catch(error => res.status(400).json({error}))
   }
