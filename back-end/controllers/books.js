@@ -68,3 +68,11 @@ exports.modifyBook = (req, res, next) => {
         .then(book => res.status(200).json(book))
         .catch(error => res.status(400).json({error}))
   }
+
+  exports.rating = (req, res, next) =>{
+
+  }
+
+  exports.getBestRating = (req, res, next) =>{
+    
+  }
