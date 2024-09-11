@@ -70,15 +70,23 @@ exports.getAllBooks = (req, res, next) => {
 }
 
 exports.rating = (req, res, next) =>{
-
+    Book.findOne({ _id: req.params.id })
+    .then(book =>{
+        const newRating = {
+            userId: req.body.userId,
+            grade: req.body.rating
+        }
+        book.ratings.push(newRating)
+        book.averageRating= book.ratings.reduce((acc, rating) => acc + rating.grade, 0)/ book.ratings.length
+        book.save()
+            .then(books => {res.status(200).json(books)})
+            .catch(error => {res.status(400).json({ error })})
+    })
+    .catch(error => {res.status(400).json({ error })})
 }
 
 exports.getBestRating = (req, res, next) =>{
-    console.log("Requête reçue sur /bestrating");
     Book.find().sort({ averageRating: -1 }).limit(3)
-    .then(books => {
-        res.status(200).json(books);
-    }).catch(error => {
-        res.status(400).json({ error });
-    });
+    .then(books => {res.status(200).json(books)})
+    .catch(error => {res.status(400).json({ error })})
 }
